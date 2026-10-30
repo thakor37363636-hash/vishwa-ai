@@ -1,46 +1,60 @@
 export default {
-  async fetch(request, env) {
-    const url = new URL(request.url);
+  async fetch(request, env, ctx) {
+    const corsHeaders = {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    };
 
-    if (url.pathname === "/api/chat" && request.method === "POST") {
+    if (request.method === "OPTIONS") {
+      return new Response(null, { headers: corsHeaders });
+    }
+
+    if (request.method === "GET") {
+      return new Response("VISHWA AI Worker is Running & Ready for Gemini API!", {
+        headers: { "Content-Type": "text/plain", ...corsHeaders }
+      });
+    }
+
+    if (request.method === "POST") {
       try {
-        const { message } = await request.json();
+        const body = await request.json();
+        const userPrompt = body.prompt || "Namaste";
 
-        if (!message || typeof message !== "string") {
-          return Response.json({ error: "સંદેશ લખો." }, { status: 400 });
+        const apiKey = env.GEMINI_API_KEY;
+
+        if (!apiKey) {
+          return new Response(JSON.stringify({ error: "GEMINI_API_KEY set nathi kareli!" }), {
+            status: 500,
+            headers: { "Content-Type": "application/json", ...corsHeaders }
+          });
         }
 
-        const response = await fetch(
-          "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "x-goog-api-key": env.GEMINI_API_KEY
-            },
-            body: JSON.stringify({
-              contents: [{ parts: [{ text: message }] }]
-            })
-          }
-        );
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+        
+        const response = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: userPrompt }] }]
+          })
+        });
 
         const data = await response.json();
+        const aiReply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Koi javab malyo nathi.";
 
-        if (!response.ok) {
-          return Response.json(
-            { error: data.error?.message || "AI સેવા અત્યારે ઉપલબ્ધ નથી." },
-            { status: response.status }
-          );
-        }
-
-        return Response.json({
-          reply: data.candidates?.[0]?.content?.parts?.[0]?.text || "જવાબ મળ્યો નથી."
+        return new Response(JSON.stringify({ reply: aiReply }), {
+          headers: { "Content-Type": "application/json", ...corsHeaders }
         });
-      } catch (error) {
-        return Response.json({ error: "વિનંતી પૂર્ણ થઈ નથી." }, { status: 500 });
+
+      } catch (err) {
+        return new Response(JSON.stringify({ error: err.message }), {
+          status: 500,
+          headers: { "Content-Type": "application/json", ...corsHeaders }
+        });
       }
     }
 
-    return new Response("VISHWA AI Worker is running.");
+    return new Response("Method not allowed", { status: 405, headers: corsHeaders });
   }
 };
