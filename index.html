@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VISHWA AI</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#07111f;color:white;font-family:Arial,sans-serif}
+header{padding:22px;text-align:center;background:#10243c;border-bottom:2px solid #16c7a0}
+h1{color:#16e0b4;margin:5px}
+main{max-width:650px;margin:25px auto;padding:18px}
+.panel{background:#12243a;padding:20px;border-radius:16px}
+textarea{width:100%;height:130px;padding:14px;border-radius:10px;border:1px solid #42617d;background:#07111f;color:white;font-size:16px}
+button{width:100%;padding:14px;margin-top:12px;border:0;border-radius:10px;background:#11c99b;color:#07111f;font-size:17px;font-weight:bold}
+#answer{white-space:pre-wrap;margin-top:18px;line-height:1.6}
+small{color:#b5c7d9}
+</style>
+</head>
+<body>
+<header>
+<h1>🌍 VISHWA AI</h1>
+<p>Universal AI Coordination Platform</p>
+</header>
+<main>
+<div class="panel">
+<h2>તમારા AI સહાયકને પૂછો</h2>
+<textarea id="question" placeholder="તમારો પ્રશ્ન અહીં લખો..."></textarea>
+<button onclick="askAI()">પ્રશ્ન મોકલો</button>
+<div id="answer">VISHWA AI તૈયાર છે. AI સેવા જોડાયા પછી જવાબ આપશે.</div>
+</div>
+<p><small>આ પ્રથમ ઇન્ટરફેસ છે. હજી AI મોડેલ જોડાયેલું નથી.</small></p>
+</main>
+<script>
+function askAI(){
+const q=document.getElementById('question').value.trim();
+const a=document.getElementById('answer');
+if(!q){a.textContent='કૃપા કરીને પહેલાં પ્રશ્ન લખો.';return;}
+a.textContent='AI સેવા હજી જોડાઈ નથી. આગળના તબક્કામાં સુરક્ષિત AI કનેક્શન બનાવશું.';
+}
+</script>
+</body>
+</html>
