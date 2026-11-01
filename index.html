@@ -1,44 +1,272 @@
-
 <!DOCTYPE html>
 <html lang="gu">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VISHWA AI</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#07111f;color:white;font-family:Arial,sans-serif}
-header{padding:22px;text-align:center;background:#10243c;border-bottom:2px solid #16c7a0}
-h1{color:#16e0b4;margin:5px}
-main{max-width:650px;margin:25px auto;padding:18px}
-.panel{background:#12243a;padding:20px;border-radius:16px}
-textarea{width:100%;height:130px;padding:14px;border-radius:10px;border:1px solid #42617d;background:#07111f;color:white;font-size:16px}
-button{width:100%;padding:14px;margin-top:12px;border:0;border-radius:10px;background:#11c99b;color:#07111f;font-size:17px;font-weight:bold}
-#answer{white-space:pre-wrap;margin-top:18px;line-height:1.6}
-small{color:#b5c7d9}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VISHWA AI Assistant</title>
+    <style>
+        :root {
+            --bg-color: #0d1b2a;
+            --chat-bg: #1b263b;
+            --accent-color: #06d6a0;
+            --text-color: #e0e1dd;
+            --user-msg: #415a77;
+            --ai-msg: #1b263b;
+            --error-color: #ff6b6b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            height: 100dvh;
+        }
+
+        header {
+            background-color: var(--chat-bg);
+            padding: 15px;
+            text-align: center;
+            border-bottom: 2px solid var(--accent-color);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        header h1 {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        #chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .user-message {
+            background-color: var(--user-msg);
+            color: #ffffff;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+
+        .ai-message {
+            background-color: var(--ai-msg);
+            color: var(--text-color);
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+            border: 1px solid rgba(6, 214, 160, 0.2);
+        }
+
+        .error-message {
+            background-color: rgba(255, 107, 107, 0.2);
+            border: 1px solid var(--error-color);
+            color: var(--error-color);
+            align-self: center;
+            text-align: center;
+            width: 100%;
+        }
+
+        .loading-dots span {
+            height: 8px;
+            width: 8px;
+            float: left;
+            margin: 0 2px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            display: inline-block;
+            animation: bounce 1.3s infinite ease-in-out;
+        }
+
+        .loading-dots span:nth-child(2) { animation-delay: -1.1s; }
+        .loading-dots span:nth-child(3) { animation-delay: -0.9s; }
+
+        @keyframes bounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-6px); }
+        }
+
+        #input-container {
+            background-color: var(--chat-bg);
+            padding: 12px;
+            display: flex;
+            gap: 10px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        #user-input {
+            flex: 1;
+            padding: 12px 15px;
+            background-color: #0d1b2a;
+            border: 1px solid rgba(6, 214, 160, 0.3);
+            border-radius: 25px;
+            color: var(--text-color);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        #user-input:focus {
+            border-color: var(--accent-color);
+        }
+
+        #send-btn {
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+            border: none;
+            padding: 0 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        #send-btn:active {
+            opacity: 0.8;
+        }
+
+        .retry-btn {
+            background: none;
+            border: 1px solid var(--error-color);
+            color: var(--error-color);
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-top: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+    </style>
 </head>
 <body>
-<header>
-<h1>🌍 VISHWA AI</h1>
-<p>Universal AI Coordination Platform</p>
-</header>
-<main>
-<div class="panel">
-<h2>તમારા AI સહાયકને પૂછો</h2>
-<textarea id="question" placeholder="તમારો પ્રશ્ન અહીં લખો..."></textarea>
-<button onclick="askAI()">પ્રશ્ન મોકલો</button>
-<div id="answer">VISHWA AI તૈયાર છે. AI સેવા જોડાયા પછી જવાબ આપશે.</div>
-</div>
-<p><small>આ પ્રથમ ઇન્ટરફેસ છે. હજી AI મોડેલ જોડાયેલું નથી.</small></p>
-</main>
-<script>
-function askAI(){
-const q=document.getElementById('question').value.trim();
-const a=document.getElementById('answer');
-if(!q){a.textContent='કૃપા કરીને પહેલાં પ્રશ્ન લખો.';return;}
-a.textContent='AI સેવા હજી જોડાઈ નથી. આગળના તબક્કામાં સુરક્ષિત AI કનેક્શન બનાવશું.';
-}
-</script>
+
+    <header>
+        <h1>VISHWA AI</h1>
+    </header>
+
+    <div id="chat-container">
+        <div class="message ai-message">
+            નમસ્તે! હું VISHWA AI છું. તમે ગુજરાતી, હિન્દી અથવા અંગ્રેજીમાં પ્રશ્ન પૂછી શકો છો.
+        </div>
+    </div>
+
+    <div id="input-container">
+        <input type="text" id="user-input" placeholder="તમારો પ્રશ્ન અહીં લખો..." autocomplete="off">
+        <button id="send-btn" onclick="sendMessage()">મોકલો</button>
+    </div>
+
+    <script>
+        const WEBHOOK_URL = "https://aidomy.app.n8n.cloud/webhook-test/30350321-dece-4669-8878-ccd0261f1e62";
+
+        const chatContainer = document.getElementById('chat-container');
+        const userInput = document.getElementById('user-input');
+
+        userInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        async function sendMessage(retryText = null) {
+            const question = retryText || userInput.value.trim();
+            if (!question) return;
+
+            if (!retryText) {
+                appendMessage(question, 'user-message');
+                userInput.value = '';
+            }
+
+            const loadingId = appendLoading();
+
+            try {
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ question: question })
+                });
+
+                removeLoading(loadingId);
+
+                if (!response.ok) {
+                    throw new Error('સર્વર સાથે જોડવામાં સમસ્યા થઈ છે.');
+                }
+
+                const data = await response.json();
+                const aiResponse = data.output || data.response || data.text || JSON.stringify(data);
+                appendMessage(aiResponse, 'ai-message');
+
+            } catch (error) {
+                removeLoading(loadingId);
+                appendError("કનેક્શન એરર: પ્રશ્ન મોકલી શકાયો નથી.", question);
+            }
+        }
+
+        function appendMessage(text, className) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${className}`;
+            msgDiv.textContent = text;
+            chatContainer.appendChild(msgDiv);
+            scrollToBottom();
+        }
+
+        function appendLoading() {
+            const id = 'loading-' + Date.now();
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'message ai-message';
+            msgDiv.id = id;
+            msgDiv.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
+            chatContainer.appendChild(msgDiv);
+            scrollToBottom();
+            return id;
+        }
+
+        function removeLoading(id) {
+            const element = document.getElementById(id);
+            if (element) element.remove();
+        }
+
+        function appendError(errorText, originalQuestion) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'message error-message';
+            msgDiv.innerHTML = `${errorText}<br><button class="retry-btn" onclick="retryMessage('${originalQuestion.replace(/'/g, "\\'")}')">ફરી પ્રયાસ કરો (Retry)</button>`;
+            chatContainer.appendChild(msgDiv);
+            scrollToBottom();
+        }
+
+        function retryMessage(question) {
+            const errorMsgs = chatContainer.querySelectorAll('.error-message');
+            if (errorMsgs.length > 0) {
+                errorMsgs[errorMsgs.length - 1].remove();
+            }
+            sendMessage(question);
+        }
+
+        function scrollToBottom() {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+    </script>
 </body>
 </html>
