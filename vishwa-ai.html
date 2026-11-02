@@ -3,18 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#071526">
+<meta name="theme-color" content="#06150e">
 <title>VISHWA AI</title>
 
 <style>
 :root {
-  --bg:#071526;
-  --panel:#101f36;
-  --green:#00f5a0;
-  --blue:#5277ff;
-  --purple:#a45cff;
-  --text:#f4f7ff;
-  --muted:#a9b7ce;
+  --green:#00f59b;
+  --green2:#00bd78;
+  --bg:#050807;
+  --panel:#101713;
+  --muted:#9ba99f;
+  --white:#f5fff9;
 }
 * {
   box-sizing:border-box;
@@ -23,356 +22,453 @@
   font-family:Arial,"Noto Sans Gujarati",sans-serif;
 }
 body {
+  background:radial-gradient(ellipse at top,#07502e 0%,#07180f 35%,#030605 75%);
+  color:var(--white);
   min-height:100vh;
-  background:radial-gradient(circle at top,#17334c,#071526 65%);
-  color:var(--text);
+}
+button {cursor:pointer}
+.app {
+  max-width:650px;
+  min-height:100vh;
+  margin:auto;
+  background:linear-gradient(180deg,#071b11,#030605 75%);
+  position:relative;
+  padding-bottom:25px;
 }
 header {
-  padding:20px 16px;
-  text-align:center;
-  background:#0c1b2e;
-  border-bottom:1px solid #174d4b;
+  height:75px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 17px;
+  position:sticky;
+  top:0;
+  z-index:5;
+  background:#06140ff0;
+  border-bottom:1px solid #123b29;
+}
+.icon-btn {
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  color:white;
+  background:#13221a;
+  border:1px solid #31503c;
+  font-size:20px;
 }
 .logo {
-  font-size:29px;
-  font-weight:900;
-  letter-spacing:2px;
   color:var(--green);
-  text-shadow:0 0 18px #00f5a077;
+  font-size:22px;
+  font-weight:900;
+  letter-spacing:1px;
+  text-shadow:0 0 15px #00f59b80;
 }
-header p {
-  margin-top:7px;
-  font-size:12px;
-  color:var(--muted);
-}
-main {
-  max-width:700px;
-  margin:auto;
-  padding:18px 14px 30px;
-}
-.screen {display:none}
-.screen.active {display:block}
-.hero {
-  text-align:center;
-  padding:25px 12px;
-}
-.robot {
-  width:100px;
-  height:100px;
-  margin:auto auto 15px;
-  display:grid;
-  place-items:center;
-  border:2px solid var(--green);
+.plus {
+  background:linear-gradient(110deg,#00e990,#00b875);
+  color:#002b18;
+  border:0;
   border-radius:30px;
-  font-size:54px;
-  background:#0d302d;
-  box-shadow:0 0 28px #00f5a044;
+  padding:12px 20px;
+  font-weight:bold;
 }
-.hero h2 {
-  font-size:25px;
-  margin-bottom:9px;
-}
-.hero p {
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.6;
-}
-.section-title {
-  font-size:17px;
-  margin:15px 0;
-}
-.grid {
+.screen {display:none;padding:20px 16px}
+.screen.active {display:block}
+.welcome {margin:20px 0 24px}
+.welcome h2 {font-size:23px;line-height:1.5}
+.welcome p {color:#b4c4b9;margin-top:8px;font-size:14px}
+.green {color:var(--green)}
+.tool-grid {
   display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
+  grid-template-columns:repeat(2,1fr);
+  gap:11px;
 }
-.tile {
-  background:linear-gradient(145deg,#142943,#101a30);
-  border:1px solid #28415b;
-  border-radius:17px;
-  padding:18px 12px;
-  min-height:112px;
+.tool {
+  background:linear-gradient(145deg,#14251a,#0a120d);
+  border:1px solid #263e2d;
+  border-radius:18px;
+  min-height:90px;
+  padding:15px;
+  color:white;
   text-align:left;
-  color:var(--text);
-  cursor:pointer;
 }
-.tile:active {transform:scale(.97)}
-.tile .emoji {
+.tool:active {transform:scale(.97)}
+.tool-icon {
   display:block;
-  font-size:28px;
+  font-size:24px;
   margin-bottom:10px;
 }
-.tile strong {font-size:15px}
-.tile small {
+.tool strong {font-size:14px}
+.tool small {
   display:block;
+  color:#9aab9f;
   margin-top:6px;
-  color:var(--muted);
   font-size:11px;
 }
-.chat-box {
-  height:57vh;
-  min-height:330px;
-  overflow-y:auto;
-  padding:13px;
+.heading {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:24px 0 14px;
+}
+.heading h3 {font-size:17px}
+.recent {
+  background:#101a13;
+  border:1px solid #243a29;
   border-radius:18px;
-  background:#101b31;
-  border:1px solid #384b80;
+  padding:10px;
+}
+.recent button {
+  width:100%;
+  padding:14px 10px;
+  color:white;
+  background:transparent;
+  border:0;
+  border-bottom:1px solid #243329;
+  text-align:left;
+  font-size:13px;
+}
+.recent button:last-child {border:0}
+.bottom-input {
+  margin-top:25px;
+  padding:15px;
+  background:#071e12;
+  border:1px solid #16452b;
+  border-radius:20px;
+}
+.bottom-input textarea {
+  width:100%;
+  background:transparent;
+  border:0;
+  outline:0;
+  color:white;
+  resize:none;
+  min-height:45px;
+  font-size:15px;
+}
+.input-actions {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:10px;
+}
+.round {
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:#132a1b;
+  color:var(--green);
+  border:1px solid #31563a;
+  margin-right:5px;
+  font-size:16px;
+}
+.send {
+  background:white;
+  color:#07140b;
+  border:0;
+  border-radius:50%;
+  width:39px;
+  height:39px;
+  font-size:21px;
+}
+.chat-box {
+  height:55vh;
+  min-height:320px;
+  overflow-y:auto;
+  padding:12px;
+  background:#080e0a;
+  border:1px solid #21422c;
+  border-radius:18px;
 }
 .message {
   max-width:88%;
   padding:12px 14px;
   margin-bottom:12px;
-  border-radius:15px;
-  line-height:1.55;
+  border-radius:16px;
   white-space:pre-wrap;
   overflow-wrap:anywhere;
+  line-height:1.6;
   font-size:14px;
 }
 .ai-message {
-  background:#183b39;
-  border:1px solid #087b65;
-  margin-right:auto;
+  background:#13271a;
+  border:1px solid #245b38;
 }
 .user-message {
-  background:linear-gradient(120deg,#344b9a,#633e9b);
+  background:linear-gradient(120deg,#007c4b,#005d3b);
   margin-left:auto;
 }
 .error-message {
-  background:#4b202b;
-  border:1px solid #ff7777;
+  background:#491d1d;
   color:#ffdada;
 }
 .loading {color:var(--green)}
-.input-row {
-  display:flex;
-  gap:8px;
-  margin-top:12px;
+.back {
+  background:#15251a;
+  color:white;
+  border:1px solid #31523a;
+  padding:11px 17px;
+  border-radius:25px;
+  margin-bottom:18px;
 }
-input,select,textarea {
+.field {
   width:100%;
   padding:14px;
-  color:white;
-  background:#14243b;
-  border:1px solid #405477;
+  background:#111d14;
+  border:1px solid #31523a;
   border-radius:12px;
-  outline:none;
+  color:white;
+  margin:10px 0;
   font-size:14px;
 }
-.input-row input {min-width:0}
-button {
-  border:0;
-  border-radius:12px;
-  padding:12px 17px;
-  font-weight:bold;
-  cursor:pointer;
-}
-.send-btn {
-  background:linear-gradient(120deg,#5277ff,#a45cff);
-  color:white;
-}
-.back-btn {
-  background:#20334b;
-  color:white;
-  margin-bottom:14px;
-}
-.primary-btn {
-  background:linear-gradient(120deg,#00b984,#087eaa);
-  color:white;
+.action {
   width:100%;
-  margin-top:12px;
-}
-textarea {
-  min-height:110px;
-  margin-top:12px;
-  resize:vertical;
+  padding:14px;
+  border:0;
+  border-radius:30px;
+  background:linear-gradient(100deg,#00ed91,#00a96a);
+  color:#002a16;
+  font-weight:bold;
+  margin-top:10px;
 }
 .info {
-  margin-top:15px;
   padding:15px;
-  border:1px solid #344b68;
-  border-radius:14px;
-  color:var(--muted);
-  line-height:1.6;
+  border:1px solid #285137;
+  background:#101a12;
+  border-radius:15px;
+  color:#bac9bd;
   font-size:13px;
+  line-height:1.7;
+  margin-top:15px;
 }
 .status {
-  display:inline-block;
-  margin-top:10px;
-  padding:6px 10px;
-  border-radius:20px;
-  background:#49391d;
-  color:#ffd47b;
-  font-size:11px;
+  color:#ffd47a;
+  font-size:12px;
+  display:block;
+  margin-top:9px;
+}
+.voice-area {
+  text-align:center;
+  padding:35px 5px;
+}
+.orb {
+  width:220px;
+  height:220px;
+  margin:35px auto;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 25%,#9bffd1,#00c779 30%,#00472a 65%,#020a05 80%);
+  box-shadow:0 0 35px #00ed8c80, inset -15px -20px 35px #001c0e;
+  border:2px solid #00d887;
+  animation:glow 3s infinite alternate;
+}
+@keyframes glow {
+  from {box-shadow:0 0 20px #00ed8c50}
+  to {box-shadow:0 0 55px #00ed8c}
+}
+.mic {
+  width:75px;
+  height:75px;
+  border-radius:50%;
+  border:0;
+  background:var(--green);
+  color:#002a16;
+  font-size:30px;
+  box-shadow:0 0 25px #00ed8c80;
 }
 footer {
   text-align:center;
   padding:20px;
-  color:var(--muted);
+  color:#718477;
   font-size:11px;
 }
-button:disabled {
-  opacity:.5;
-  cursor:not-allowed;
-}
-@media(min-width:600px) {
-  .grid {grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:360px) {
+  .logo {font-size:18px}
+  .orb {width:180px;height:180px}
 }
 </style>
 </head>
 
 <body>
+<div class="app">
 
 <header>
+  <button class="icon-btn" onclick="openScreen('home')">☰</button>
   <div class="logo">✦ VISHWA AI</div>
-  <p>તમારો આધુનિક સ્માર્ટ AI સહાયક</p>
-  <p>Gujarati • Hindi • English</p>
+  <button class="plus" onclick="openScreen('chat')">AI ✦</button>
 </header>
 
-<main>
+<!-- HOME SCREEN -->
+<section id="home" class="screen active">
 
-<!-- HOME -->
-<section id="home-screen" class="screen active">
-  <div class="hero">
-    <div class="robot">🤖</div>
-    <h2>નમસ્તે! VISHWA AI માં સ્વાગત છે</h2>
-    <p>એક જગ્યાએ AI Chat, Video, Email, Image અને Automation.</p>
-  </div>
+<div class="welcome">
+  <h2>Hey! 👋<br>Ready to Get <span class="green">Things Done</span> Today?</h2>
+  <p>તમારો પોતાનો સ્માર્ટ AI સહાયક.</p>
+</div>
 
-  <h3 class="section-title">તમારા AI Tools</h3>
-  <div class="grid">
-    <button class="tile" onclick="openScreen('chat-screen')">
-      <span class="emoji">💬</span>
-      <strong>AI Chat</strong>
-      <small>તમારા પ્રશ્નોના જવાબ</small>
-    </button>
+<div class="tool-grid">
 
-    <button class="tile" onclick="openScreen('video-screen')">
-      <span class="emoji">🎬</span>
-      <strong>AI Video</strong>
-      <small>વિડિયો બનાવવાની સુવિધા</small>
-    </button>
+<button class="tool" onclick="openScreen('image')">
+<span class="tool-icon">🖼️</span>
+<strong>Create Image</strong>
+<small>AI Image Tools</small>
+</button>
 
-    <button class="tile" onclick="openScreen('email-screen')">
-      <span class="emoji">📧</span>
-      <strong>Email AI</strong>
-      <small>ઈમેઇલ સહાયક</small>
-    </button>
+<button class="tool" onclick="openScreen('research')">
+<span class="tool-icon">📄</span>
+<strong>Summarize Text</strong>
+<small>માહિતીનો સાર</small>
+</button>
 
-    <button class="tile" onclick="openScreen('image-screen')">
-      <span class="emoji">🖼️</span>
-      <strong>Image AI</strong>
-      <small>ફોટો અને ઈમેજ ટૂલ્સ</small>
-    </button>
+<button class="tool" onclick="openScreen('chat')">
+<span class="tool-icon">📝</span>
+<strong>Help me write</strong>
+<small>લખાણ તૈયાર કરો</small>
+</button>
 
-    <button class="tile" onclick="openScreen('voice-screen')">
-      <span class="emoji">🎙️</span>
-      <strong>Voice AI</strong>
-      <small>અવાજ અને ભાષા</small>
-    </button>
+<button class="tool" onclick="openScreen('automation')">
+<span class="tool-icon">💡</span>
+<strong>Make a Plan</strong>
+<small>AI Planning</small>
+</button>
 
-    <button class="tile" onclick="openScreen('research-screen')">
-      <span class="emoji">🔍</span>
-      <strong>Research AI</strong>
-      <small>માહિતી અને સંશોધન</small>
-    </button>
+<button class="tool" onclick="openScreen('research')">
+<span class="tool-icon">🔍</span>
+<strong>Research AI</strong>
+<small>માહિતી શોધો</small>
+</button>
 
-    <button class="tile" onclick="openScreen('automation-screen')">
-      <span class="emoji">⚙️</span>
-      <strong>Automation</strong>
-      <small>ઓટોમેટિક કામ</small>
-    </button>
-  </div>
+<button class="tool" onclick="openScreen('video')">
+<span class="tool-icon">🎬</span>
+<strong>AI Video</strong>
+<small>Video Creator</small>
+</button>
+
+<button class="tool" onclick="openScreen('email')">
+<span class="tool-icon">📧</span>
+<strong>Email AI</strong>
+<small>Email Assistant</small>
+</button>
+
+<button class="tool" onclick="openScreen('voice')">
+<span class="tool-icon">🎙️</span>
+<strong>Voice AI</strong>
+<small>Voice Assistant</small>
+</button>
+
+</div>
+
+<div class="heading">
+<h3>Recently Used Tools</h3>
+<span class="green">See All</span>
+</div>
+
+<div class="recent">
+<button onclick="openScreen('chat')">💬 &nbsp; VISHWA AI Chat</button>
+<button onclick="openScreen('video')">🎬 &nbsp; Create a Video</button>
+<button onclick="openScreen('email')">📧 &nbsp; Email Assistant</button>
+</div>
+
+<div class="bottom-input">
+<textarea id="home-question" placeholder="Ask Anything..."></textarea>
+<div class="input-actions">
+<div>
+<button class="round" onclick="openScreen('image')">＋</button>
+<button class="round" onclick="openScreen('research')">◎</button>
+<button class="round" onclick="openScreen('voice')">🎙</button>
+</div>
+<button class="send" onclick="askFromHome()">↑</button>
+</div>
+</div>
 </section>
 
-<!-- CHAT -->
-<section id="chat-screen" class="screen">
-  <button class="back-btn" onclick="openScreen('home-screen')">← Home</button>
-  <h2 class="section-title">💬 VISHWA AI Chat</h2>
+<!-- CHAT SCREEN -->
+<section id="chat" class="screen">
+<button class="back" onclick="openScreen('home')">← Home</button>
+<h2 style="margin-bottom:15px">💬 VISHWA AI Chat</h2>
+<div id="chat-container" class="chat-box">
+<div class="message ai-message">
+નમસ્તે! હું VISHWA AI છું. 😊
+તમારો પ્રશ્ન પૂછો.
+</div>
+</div>
+<div class="bottom-input">
+<textarea id="user-input" placeholder="Ask Anything..." rows="2"></textarea>
+<div class="input-actions">
+<span class="green">Gujarati • Hindi • English</span>
+<button id="send-btn" class="send" onclick="sendMessage()">↑</button>
+</div>
+</div>
+</section>
 
-  <div id="chat-container" class="chat-box">
-    <div class="message ai-message">
-      નમસ્તે! હું VISHWA AI છું. 😊
-      તમે ગુજરાતી, હિન્દી અથવા અંગ્રેજીમાં પ્રશ્ન પૂછી શકો છો.
-    </div>
-  </div>
-
-  <div class="input-row">
-    <input id="user-input" type="text"
-      placeholder="તમારો પ્રશ્ન અહીં લખો..."
-      autocomplete="off">
-    <button id="send-btn" class="send-btn"
-      onclick="sendMessage()">મોકલો</button>
-  </div>
+<!-- VOICE -->
+<section id="voice" class="screen">
+<button class="back" onclick="openScreen('home')">← Home</button>
+<div class="voice-area">
+<h2>VISHWA Voice AI</h2>
+<p style="color:#a9b9ac;margin-top:10px">Listening Experience</p>
+<div class="orb"></div>
+<button class="mic" onclick="voiceInfo()">🎙</button>
+<p id="voice-status" style="margin-top:20px;color:#b6c6ba">Voice API કનેક્શન બાકી છે.</p>
+</div>
 </section>
 
 <!-- VIDEO -->
-<section id="video-screen" class="screen">
-  <button class="back-btn" onclick="openScreen('home-screen')">← Home</button>
-  <h2>🎬 AI Video Creator</h2>
-  <p class="info">તમારા વીડિયોના વિષય પરથી વિગતવાર Video Prompt તૈયાર કરો.</p>
-
-  <input id="video-topic" placeholder="વિડિયોનો વિષય લખો...">
-  <select id="video-language">
-    <option>Gujarati</option>
-    <option>Hindi</option>
-    <option>English</option>
-  </select>
-  <select id="video-format">
-    <option value="9:16">9:16 Vertical Reel</option>
-    <option value="16:9">16:9 YouTube Video</option>
-  </select>
-  <button class="primary-btn" onclick="makeVideoPrompt()">Video Prompt બનાવો</button>
-  <textarea id="video-result" placeholder="તમારો Video Prompt અહીં તૈયાર થશે..."></textarea>
-  <button class="primary-btn" onclick="copyVideoPrompt()">Prompt Copy કરો</button>
-  <div class="info">
-    <span class="status">Video API જોડવાનું બાકી</span>
-    આ વિભાગ હાલમાં Prompt બનાવે છે. ખરેખર વીડિયો બનાવવા n8n માં Video Generation API જોડવી અને ટેસ્ટ કરવી પડશે.
-  </div>
+<section id="video" class="screen">
+<button class="back" onclick="openScreen('home')">← Home</button>
+<h2>🎬 AI Video Creator</h2>
+<p class="info">એક વિષય આપો અને સંપૂર્ણ Video Generation Prompt તૈયાર કરો.</p>
+<input class="field" id="video-topic" placeholder="વિડિયોનો વિષય લખો...">
+<select class="field" id="video-lang">
+<option>Gujarati</option><option>Hindi</option><option>English</option>
+</select>
+<select class="field" id="video-format">
+<option value="9:16">9:16 Instagram / Facebook Reel</option>
+<option value="16:9">16:9 YouTube Video</option>
+</select>
+<button class="action" onclick="makeVideoPrompt()">વિડિયો Prompt બનાવો</button>
+<textarea class="field" id="video-result" rows="9" placeholder="Video Prompt અહીં આવશે..."></textarea>
+<button class="action" onclick="copyPrompt()">Copy Prompt</button>
+<div class="info">
+<span class="status">Video API કનેક્શન બાકી</span>
+હાલ આ મોડ્યુલ Prompt બનાવે છે. ખરેખર વીડિયો બનાવવા n8n Video API જોડવી પડશે.
+</div>
 </section>
 
 <!-- EMAIL -->
-<section id="email-screen" class="screen">
-  <button class="back-btn" onclick="openScreen('home-screen')">← Home</button>
-  <h2>📧 Email AI</h2>
-  <div class="info">
-    ઈમેઇલ શોધવા, વાંચવા, જવાબ તૈયાર કરવા અને મોકલવા માટે Gmail કનેક્શન જરૂરી છે.
-    ઈમેઇલ મોકલતાં પહેલાં તમારી મંજૂરી લેવામાં આવશે.
-    <br><span class="status">Gmail કનેક્શન બાકી</span>
-  </div>
+<section id="email" class="screen">
+<button class="back" onclick="openScreen('home')">← Home</button>
+<h2>📧 Email AI</h2>
+<div class="info">
+Gmail જોડાયા પછી VISHWA AI ઈમેઇલ વાંચી, સારાંશ આપી, જવાબ તૈયાર કરી અને તમારી મંજૂરી પછી મોકલી શકશે.
+<span class="status">Gmail કનેક્શન બાકી</span>
+</div>
 </section>
 
-<!-- OTHER MODULES -->
-<section id="image-screen" class="screen">
-  <button class="back-btn" onclick="openScreen('home-screen')">← Home</button>
-  <h2>🖼️ Image AI</h2>
-  <div class="info">Image Generation અને Photo Editing માટે Image API જોડવાની રહેશે.</div>
-  <span class="status">API કનેક્શન બાકી</span>
+<!-- IMAGE -->
+<section id="image" class="screen">
+<button class="back" onclick="openScreen('home')">← Home</button>
+<h2>🖼️ Image AI</h2>
+<div class="info">AI Image Generation અને Photo Editing માટે Image API જોડવાની રહેશે.
+<span class="status">Image API કનેક્શન બાકી</span></div>
 </section>
 
-<section id="voice-screen" class="screen">
-  <button class="back-btn" onclick="openScreen('home-screen')">← Home</button>
-  <h2>🎙️ Voice AI</h2>
-  <div class="info">Voice Generation અને Speech-to-Text માટે યોગ્ય Voice API જોડવાની રહેશે.</div>
-  <span class="status">API કનેક્શન બાકી</span>
+<!-- RESEARCH -->
+<section id="research" class="screen">
+<button class="back" onclick="openScreen('home')">← Home</button>
+<h2>🔍 Research AI</h2>
+<div class="info">Web Search અને Research માટે Search Tool જોડવાની રહેશે.
+<span class="status">Research Tool કનેક્શન બાકી</span></div>
 </section>
 
-<section id="research-screen" class="screen">
-  <button class="back-btn" onclick="openScreen('home-screen')">← Home</button>
-  <h2>🔍 Research AI</h2>
-  <div class="info">વેબ રિસર્ચ માટે Search Tool અથવા Research API જોડવાની રહેશે.</div>
-  <span class="status">Tool કનેક્શન બાકી</span>
+<!-- AUTOMATION -->
+<section id="automation" class="screen">
+<button class="back" onclick="openScreen('home')">← Home</button>
+<h2>⚙️ AI Automation</h2>
+<div class="info">n8n Workflows અને જરૂરી Accounts જોડીને અનેક કામ ઓટોમેટિક કરી શકાશે.
+<span class="status">Workflow કનેક્શન બાકી</span></div>
 </section>
 
-<section id="automation-screen" class="screen">
-  <button class="back-btn" onclick="openScreen('home-screen')">← Home</button>
-  <h2>⚙️ AI Automation</h2>
-  <div class="info">વાસ્તવિક Automation માટે n8n Workflows અને જરૂરી Accounts જોડવાના રહેશે.</div>
-  <span class="status">Workflow કનેક્શન બાકી</span>
-</section>
-
-</main>
-
-<footer>VISHWA AI • Your Smart AI Assistant</footer>
+<footer>VISHWA AI • Your Personal AI Assistant</footer>
+</div>
 
 <script>
 const WEBHOOK_URL =
@@ -384,9 +480,7 @@ const sendBtn = document.getElementById("send-btn");
 let busy = false;
 
 function openScreen(id) {
-  document.querySelectorAll(".screen").forEach(screen => {
-    screen.classList.remove("active");
-  });
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
   window.scrollTo(0,0);
 }
@@ -396,25 +490,15 @@ function addMessage(text,type) {
   div.className = "message " + type;
   div.textContent = String(text);
   chat.appendChild(div);
-  scrollBottom();
-  return div;
-}
-
-function scrollBottom() {
   chat.scrollTop = chat.scrollHeight;
+  return div;
 }
 
 function getAIResponse(data) {
   if (Array.isArray(data)) data = data[0] || {};
   if (typeof data === "string") return data;
-
   if (data && typeof data === "object") {
-    const result =
-      data.output ??
-      data.response ??
-      data.text ??
-      data.message;
-
+    const result = data.output ?? data.response ?? data.text ?? data.message;
     if (typeof result === "string") return result;
     if (result !== undefined) return JSON.stringify(result,null,2);
     return JSON.stringify(data,null,2);
@@ -424,16 +508,13 @@ function getAIResponse(data) {
 
 async function sendMessage(retryText = null) {
   if (busy) return;
-
   const question = retryText || input.value.trim();
   if (!question) return;
 
   busy = true;
   input.value = "";
   addMessage(question,"user-message");
-
   sendBtn.disabled = true;
-  sendBtn.textContent = "રાહ જુઓ...";
 
   const loading = addMessage("VISHWA AI જવાબ તૈયાર કરી રહ્યું છે...","loading");
   const controller = new AbortController();
@@ -448,112 +529,97 @@ async function sendMessage(retryText = null) {
     });
 
     const responseText = await response.text();
-
     if (!response.ok) {
-      throw new Error("Server Error " + response.status + ": " +
-        (responseText || "સર્વર તરફથી જવાબ મળ્યો નથી."));
+      throw new Error("Server Error " + response.status + ": " + responseText);
     }
 
     let data;
-    try {
-      data = JSON.parse(responseText);
-    } catch {
-      data = responseText;
-    }
+    try {data = JSON.parse(responseText)}
+    catch {data = responseText}
 
     const answer = getAIResponse(data);
-    if (!answer || answer === "{}") {
-      throw new Error("AI તરફથી ખાલી જવાબ મળ્યો.");
-    }
+    if (!answer || answer === "{}") throw new Error("AI તરફથી ખાલી જવાબ મળ્યો.");
 
     loading.remove();
     addMessage(answer,"ai-message");
 
   } catch(error) {
     loading.remove();
+    let message = error.name === "AbortError"
+      ? "60 સેકન્ડમાં જવાબ મળ્યો નથી. Workflow તપાસો."
+      : error.message || "કનેક્શન સમસ્યા આવી છે.";
 
-    let message = "કનેક્શન સમસ્યા આવી છે.";
-    if (error.name === "AbortError") {
-      message = "60 સેકન્ડમાં જવાબ મળ્યો નથી. Workflow તપાસો.";
-    } else if (error.message) {
-      message = error.message;
-    }
-
-    const errorBox = addMessage("VISHWA AI Error: " + message,"error-message");
+    const box = addMessage("VISHWA AI Error: " + message,"error-message");
     const retry = document.createElement("button");
-    retry.className = "send-btn";
     retry.textContent = "ફરી પ્રયાસ કરો";
-    retry.style.marginTop = "10px";
-    retry.onclick = function() {
-      errorBox.remove();
-      sendMessage(question);
-    };
-    errorBox.appendChild(document.createElement("br"));
-    errorBox.appendChild(retry);
+    retry.className = "action";
+    retry.onclick = () => {box.remove();sendMessage(question)};
+    box.appendChild(retry);
 
   } finally {
     clearTimeout(timeout);
     busy = false;
     sendBtn.disabled = false;
-    sendBtn.textContent = "મોકલો";
-    input.focus();
-    scrollBottom();
+    chat.scrollTop = chat.scrollHeight;
   }
 }
 
-input.addEventListener("keydown",function(event) {
-  if (event.key === "Enter") sendMessage();
+input.addEventListener("keydown",e => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
 });
+
+function askFromHome() {
+  const question = document.getElementById("home-question").value.trim();
+  if (!question) return;
+  openScreen("chat");
+  input.value = question;
+  sendMessage();
+}
 
 function makeVideoPrompt() {
   const topic = document.getElementById("video-topic").value.trim();
-  const language = document.getElementById("video-language").value;
+  const lang = document.getElementById("video-lang").value;
   const format = document.getElementById("video-format").value;
 
   if (!topic) {
-    alert("પહેલાં વીડિયાનો વિષય લખો.");
+    alert("પહેલાં વીડિયોનો વિષય લખો.");
     return;
   }
 
-  const prompt =
-`Create an original, high-quality ${language} video about: ${topic}.
+  document.getElementById("video-result").value =
+`Create a complete original cinematic ${lang} video about: ${topic}.
 
 Format: ${format}
-Create a complete video with:
-1. An engaging opening hook.
-2. A detailed scene-by-scene storyline.
-3. Consistent characters and visual appearance.
-4. Cinematic camera movements and realistic visuals.
-5. Natural voiceover in ${language}.
-6. Background music and suitable sound effects.
-7. Clear subtitles in ${language}.
-8. A strong ending.
+Create a compelling opening hook, complete story, scene-by-scene moving video shots, consistent characters, detailed visuals, camera movements, natural voiceover, subtitles, background music and sound effects.
 
-Do not create only a slideshow. Generate actual moving video scenes.
-Make the story original, engaging and suitable for social media.`;
-
-  document.getElementById("video-result").value = prompt;
+Make it engaging, high quality and suitable for social media.
+Do not create only a slideshow. Generate actual moving scenes.`;
 }
 
-function copyVideoPrompt() {
-  const result = document.getElementById("video-result");
-  if (!result.value.trim()) {
-    alert("પહેલાં Video Prompt બનાવો.");
+function copyPrompt() {
+  const box = document.getElementById("video-result");
+  if (!box.value.trim()) {
+    alert("પહેલાં Prompt બનાવો.");
     return;
   }
+  box.select();
   if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(result.value)
+    navigator.clipboard.writeText(box.value)
       .then(() => alert("Prompt Copy થયો!"))
-      .catch(() => {
-        result.select();
-        alert("Prompt પસંદ કર્યો છે. Copy કરો.");
-      });
+      .catch(() => alert("લખાણ પસંદ થયું છે. Copy કરો."));
   } else {
-    result.select();
-    alert("Prompt પસંદ કર્યો છે. Copy કરો.");
+    alert("લખાણ પસંદ થયું છે. Copy કરો.");
   }
+}
+
+function voiceInfo() {
+  document.getElementById("voice-status").textContent =
+  "Voice API જોડાયા પછી Voice AI ચાલુ થશે.";
 }
 </script>
 
 </body>
-  </html>
+</html>
